@@ -27,11 +27,11 @@ table {
     font-size: 13px;
 }
 
-#post .post-info span {
+.post-info span {
     color: #112fff;
 }
 
-#post .post-info {
+.post-info {
     margin: 3px 60px;
 }
 
@@ -52,7 +52,7 @@ table {
     left: 20px;
 }
 
-#post .post-content {
+.post-content {
     background: #ececec;
     position: relative;
 }
@@ -69,7 +69,7 @@ table {
     margin: 8px 0;
 }
 
-#container .content #facts ul {
+#facts ul {
     list-style: none;
     margin-left: 40px;
     margin-top: 8px;
@@ -79,7 +79,7 @@ table {
     padding: 0px 3px 0 5px;
 }
 
-#container .content #basic-info img {
+#basic-info img {
     width: 20%;
     height: 90px;
 }
@@ -89,7 +89,7 @@ table {
     overflow: hidden;
 }
 
-#basic-info .info {
+.info {
     width: 80%;
     float: right;
     overflow: scroll;
