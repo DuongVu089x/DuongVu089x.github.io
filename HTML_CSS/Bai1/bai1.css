@@ -1,0 +1,116 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+#form-comment {
+    margin-top: 9px;
+}
+
+.post-info p {
+    font-size: 12px;
+}
+
+#form-comment h4 {text-align: center;margin-left: 15px;font-size: 15px;}
+
+form textarea {
+    width: 98%;
+    font-size: 13px;
+}
+
+.col-01 {
+    width: 98px;
+}
+
+table {
+    width: 100%;
+    font-size: 13px;
+}
+
+#post .post-info span {
+    color: #112fff;
+}
+
+#post .post-info {
+    margin: 3px 60px;
+}
+
+.post-content p {
+    padding: 8px 6px;
+    font-size: 14px;
+}
+
+.post-content p:after {
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #ececec;
+    position: absolute;
+    top: 100%;
+    left: 20px;
+}
+
+#post .post-content {
+    background: #ececec;
+    position: relative;
+}
+
+#post {
+    margin-top: 55px;
+}
+
+#facts ul li img {
+    margin-right: 8px;
+}
+
+#facts h4 {
+    margin: 8px 0;
+}
+
+#container .content #facts ul {
+    list-style: none;
+    margin-left: 40px;
+    margin-top: 8px;
+}
+
+.content {
+    padding: 0px 3px 0 5px;
+}
+
+#container .content #basic-info img {
+    width: 20%;
+    height: 90px;
+}
+
+#basic-info {
+    height: 100px;
+    overflow: hidden;
+}
+
+#basic-info .info {
+    width: 80%;
+    float: right;
+    overflow: scroll;
+    height: 100px;
+}
+
+.title {
+    height: 25px;
+    line-height: 25px;
+    background: url('images/LiThuyet01_title_bg.gif');
+}
+
+#container {
+    width: 500px;
+    border: 1px solid #0033FF;
+    margin: auto;
+}
+@media print{
+	html, body {display:none;}
+}
+body {
+	font-family: Georgia, 'Time New Roman', Times, serif;
+	margin: 0;
+}
