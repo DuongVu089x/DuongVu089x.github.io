@@ -12,15 +12,16 @@ body {
     display: inline-block;
 }
 #form-comment {
-    margin-top: 9px;
+    margin-top: 35px;
 }
 .post-info p {
-    font-size: 12px;
+    font-size: 13px;
 }
 #form-comment h4 {text-align: center;margin-left: 15px;font-size: 15px;}
 form textarea {
     width: 98%;
     font-size: 13px;
+    padding: 0 3px;
 }
 .col-01 {
     width: 98px;
@@ -33,13 +34,13 @@ table {
     color: #112fff;
 }
 .post-info {
-    margin: 3px 60px;
+    margin: 0 10px 0 20px;
 }
 .post-content p {
     padding: 8px 6px;
     font-size: 14px;
 }
-.post-content p:after {
+/* .post-content p:after {
     content: "";
     width: 0;
     height: 0;
@@ -49,7 +50,7 @@ table {
     position: absolute;
     top: 100%;
     left: 20px;
-}
+} */
 .post-content {
     background: #ececec;
     position: relative;

@@ -2,94 +2,95 @@
     margin: 0;
     padding: 0;
 }
-
+#footer p {
+    text-transform: uppercase;
+    font-size: 10px;
+}
+#footer a {
+    color: #595959;
+}
+#footer {
+    width: 685px;
+    margin: 50px 75px;
+    padding: 25px 10px;
+    border-top: 1px dotted #3f3f41;
+}
+#wrapper {
+    min-height: 600px;
+    padding: 65px 65px;
+}
 .lauch-website {
     margin-top: 15px;
 }
-
 a img {
     margin-right: 5px;
 }
-
 .text-white {
     color: #fff;
     text-decoration: none;
     font-size: 11px;
 }
-
 .item .img-item {
     width: 100%;
 }
-
 .item-content p {
     font-size: 12px;
-    margin: 15px 0px;
+    padding: 15px 0px;
+    border-bottom: 1px dotted #3f3f41;
 }
-
 .item-content .rectangle {
     background: #2c2c2c;
     width: 125px;
     height: 20px;
 }
-
 .item-content {
     padding: 15px 18px;
 }
-
 #content {
     float: left;
     margin-left: 35px;
     margin-top: 45px;
-    width: 425px;
+    width: 430px;
 }
 .list-links li a {
     font-size: 12px;
     color: #707070;
 }
-
 .list-links li {
     margin-bottom: 10px;
 }
-
 .list-links li img {
     margin-right: 5px;
 }
-
 ul.list-links {
     list-style: none;
     padding: 30px 20px 0 20px;
 }
-
 #menu p {
     border-top: 1px solid #7e7e7e;
     padding: 30px 10px 70px 10px;
     font-size: 11px;
     border-bottom: 1px solid #2c2c2c;
 }
-
 #menu {
-    width: 200px;
+    width: 180px;
     max-height: 360px;
     float: left;
     background: #1f1f1f;
     padding: 45px 25px 10px 25px;
 }
-
 #container {
     color: #595959;
     margin: 30px 65px 0 65px;
 }
-
 #header a {
     color: #fff;
     text-decoration: none;
 }
-
 body {
     font-family: Arial;
     background: #121212;
 }
-
 .logo h3 {
     position: absolute;
     top: 100px;
@@ -97,29 +98,24 @@ body {
     font-weight: bold;
     font-size: 2.5em;
 }
-
 .logo img {margin: 50px 0 0px 40px;}
-
 #header {
     background: url('images/fill_header.jpg') no-repeat;
     height: 300px;
     position: relative;
     background-size: auto 335px;
 }
-
 #header ul {
     list-style: none;
     position: absolute;
     bottom: 14px;
     left: 60px;
 }
-
 #header li img {
     display: block;
     width: 140px;
     height: 85px;
 }
-
 #header ul li {
     float: left;
     text-align: center;
