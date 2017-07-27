@@ -2,6 +2,13 @@
     margin: 0;
     padding: 0;
 }
+
+.list-images {
+    margin: 10px auto;
+    height: 200px;
+    width: 610px;
+    border: 1px solid rgba(0, 0, 0, 0.39);
+}
 h1 {
     text-align: center;
     margin: 10px;

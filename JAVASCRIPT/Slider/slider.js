@@ -2,7 +2,6 @@ var item; //initialize value  array item
 var listImages; //initialize value array image
 var index = -1; //initialize value index
 var timeout = 5000;
-var handler;//initialize variable control setInterval
 var imageUrl = ["images/slider_1.jpg",
     "images/slider_2.png",
     "images/slider_3.jpg",
@@ -28,7 +27,7 @@ var imageUrl = ["images/slider_1.jpg",
  * Create auto change image
  */
 function sliderShow() {
-    handler = setInterval(function () {
+    setTimeout(function () {
         nextItem();
     }, timeout);
 };
@@ -52,7 +51,6 @@ function prevItem() {
     } else {
         index--;
     }
-    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
@@ -65,7 +63,6 @@ function nextItem() {
     } else {
         index++;
     }
-    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
@@ -75,7 +72,6 @@ function nextItem() {
  */
 function changeIndex(currentIndex) {
     index = currentIndex;
-    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
