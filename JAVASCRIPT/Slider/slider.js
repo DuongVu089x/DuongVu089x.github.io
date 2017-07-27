@@ -1,15 +1,16 @@
 var item; //initialize value  array item
 var listImages; //initialize value array image
 var index = -1; //initialize value index
-var timeout = 5000;
+var handler;//initialize variable control setInterval
 var imageUrl = ["images/slider_1.jpg",
     "images/slider_2.png",
     "images/slider_3.jpg",
     "images/slider_4.jpg",
     "images/slider_5.jpg"
 ];
+const TIMEOUT = 5000;
 /**
- * Initialize content for div#indicators and div#list-images with value in imageUrl
+ * Data binding for div#indicators and div#list-images with value in imageUrl
  */
 (function initImages() {
     var indicators = document.getElementById('indicators');
@@ -21,18 +22,17 @@ var imageUrl = ["images/slider_1.jpg",
     item = document.querySelectorAll('.indicators .item');
     listImages = document.querySelectorAll('.image-item');
     nextItem();
-    //sliderShow();
 })();
 /**
  * Create auto change image
  */
 function sliderShow() {
-    setTimeout(function () {
+    handler = setInterval(function () {
         nextItem();
-    }, timeout);
+    }, TIMEOUT);
 };
 /**
- * Change image display
+ * Change item display
  */
 function changeItem(currentIndex) {
     for (let i = 0; i < item.length; i++) {
@@ -51,6 +51,7 @@ function prevItem() {
     } else {
         index--;
     }
+    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
@@ -63,15 +64,17 @@ function nextItem() {
     } else {
         index++;
     }
+    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
 /**
  * Change item display after click current image
- * @param currentIndex 
+ * @param {Number}currentIndex 
  */
 function changeIndex(currentIndex) {
     index = currentIndex;
+    clearInterval(handler);
     changeItem(index);
     sliderShow();
 }
