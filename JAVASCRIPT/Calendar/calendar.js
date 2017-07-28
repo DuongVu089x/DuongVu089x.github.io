@@ -5,7 +5,7 @@ var inputDate;//initialize varable mapping with tag input#input-date
 var months;//initialize varable mapping with tag select#months
 var years;//initialize varable mapping with tag select#years
 var dayOfWeeks;//initialize varable mapping with tag tr#day-of-weeks
-var trDates; //define varable array contain element tr date
+var trDates; //define varable array contain element tr  date
 
 var now = new Date(); //initalize variable get time now
 var currentDate = now.getDate(); //initialize value current date
