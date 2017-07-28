@@ -1,0 +1,21 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.background {
+    opacity: 1;
+}
+
+#content {
+    top: -95px;
+}
+
+input {
+    background-size: 40px;
+    background-position-x: 95%;
+    padding: 15px;
+    margin: 10px;
+    border: 1px solid #00B8D4;
+    width: 95%;
+}

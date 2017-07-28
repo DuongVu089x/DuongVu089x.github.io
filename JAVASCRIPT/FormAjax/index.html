@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calendar</title>
+    <link type="text/css" rel="stylesheet" href="../Calendar/calendar.css" />
+    <link type="text/css" rel="stylesheet" href="formAjax.css" />
+</head>
+
+<body>
+    <div class="container" id="container">
+        <form action="/formAjax.php" method="POST">
+            <label>User name:</label>
+            <input type="text" id="user-name" name="firstname">
+            <lable>Password:</lable>
+            <input type="password" id="password" name="lastname">
+            <lable>Birthday:</lable>
+            <input type="text" id="input-date" class="date" onclick="showDate()" onfocus="showDate()">
+            <input type="button" value="Submit" onclick="sendData()">
+        </form>
+    </div>
+    <script language="javascript" src="formAjax.js"></script>    
+    <script language="javascript" src="../Calendar/calendar.js"></script>
+</body>
+
+</html>

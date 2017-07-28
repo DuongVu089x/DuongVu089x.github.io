@@ -1,9 +1,10 @@
-var divContent = document.getElementById('content'); //initialize variable mapping with div#content
-var bodyDate = document.getElementById('content-body'); //initialize varable mapping with tag tbody#content-body
-var inputDate = document.getElementById('input-date'); //initialize varable mapping with tag input#input-date
-var months = document.getElementById('months'); //initialize varable mapping with tag select#months
-var years = document.getElementById('years'); //initialize varable mapping with tag select#years
-var dayOfWeeks = document.getElementById('day-of-weeks'); //initialize varable mapping with tag tr#day-of-weeks
+var divContainer = document.getElementById('container'); //initialize variable mapping with div#container
+var divContent;//initialize variable mapping with div#content
+var bodyDate;//initialize varable mapping with tag tbody#content-body
+var inputDate;//initialize varable mapping with tag input#input-date
+var months;//initialize varable mapping with tag select#months
+var years;//initialize varable mapping with tag select#years
+var dayOfWeeks;//initialize varable mapping with tag tr#day-of-weeks
 var trDates; //define varable array contain element tr date
 
 var now = new Date(); //initalize variable get time now
@@ -41,12 +42,46 @@ var ARR_DAY_OF_WEEKS = [
 ];
 
 (function init() {
-    inputDate.value = currentDate + "/" + (currentMonth + 1) + "/" + currentYear;
+    initDivContent();
     initOptionMonth();
     initOptionYear();
     initDayOfWeeks();
     initDayOfMonth();
+    inputDate.value = currentDate + "/" + (currentMonth + 1) + "/" + currentYear;
 })();
+
+function initDivContent() {
+    var strContentHTML = "<div id='content' class='content'>"
+                +   "<table class='show-date'>"
+                +       "<thead>"
+                +           "<tr class='controll'>"
+                +               "<th><button type='button' onclick='prevYear()'>⇇</button></th>"
+                +               "<th><button type='button' onclick='prevMonth()'>←</button></th>"
+                +               "<th colspan='2'>"
+                +                   "<select id='months' onchange='selectMonth()'></select>"
+                +               "</th>"
+                +               "<th>"
+                +                   "<select id='years' onchange='selectYear()'></select>"
+                +               "</th>"
+                +               "<th><button type='button' onclick='nextMonth()'>→</button></th>"
+                +               "<th><button type='button' onclick='nextYear()'>⇉</button></th>"
+                +           "</tr>"
+                +       "</thead>"
+                +       "<tbody id='content-body'>"
+                +           "<tr id='day-of-weeks' class='title'></tr>"
+                +       "</tbody>"
+                +   "</table>"
+                +   "<div class='background' onclick='hideDate(event)'></div>"
+                + "</div>";
+    divContainer.innerHTML += strContentHTML;
+    divContent = document.getElementById('content');
+    bodyDate = document.getElementById('content-body');
+    inputDate = document.getElementById('input-date');
+    months = document.getElementById('months');
+    years = document.getElementById('years');
+    dayOfWeeks = document.getElementById('day-of-weeks');
+}
+
 /**
  * Add data to tag select#months with content in array ARR_MONTHS
  */
@@ -176,6 +211,7 @@ function selectYear() {
     currentYear = Number(years.value);
     initBodyTable();
 }
+
 function prevMonth() {
     if (currentMonth > 0) {
         currentMonth--;
@@ -186,6 +222,7 @@ function prevMonth() {
     }
     months.value = currentMonth;
 }
+
 function nextMonth() {
     if (currentMonth < 11) {
         currentMonth++;
@@ -196,6 +233,7 @@ function nextMonth() {
     }
     months.value = currentMonth;
 }
+
 function prevYear() {
     if (currentYear > MIN_YEAR) {
         currentYear--;
@@ -205,6 +243,7 @@ function prevYear() {
     years.value = currentYear;
     initBodyTable();
 }
+
 function nextYear() {
     if (currentYear < MAX_YEAR) {
         currentYear++;

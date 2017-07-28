@@ -6,38 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Calendar</title>
-    <link type="text/css" rel="stylesheet" href="custom.css" />
+    <link type="text/css" rel="stylesheet" href="calendar.css" />
 </head>
 
 <body>
-    <div class="container">
+    <div class="container" id="container">
         <input type="text" id="input-date" class="date" onclick="showDate()" onfocus="showDate()">
-        <div id="content" class="content">
-            <table class="show-date">
-                <thead>
-                    <tr class="controll">
-                        <th><button type="button" onclick="prevYear()">⇇</button></th>
-                        <th><button type="button" onclick="prevMonth()">←</button></th>
-                        <th colspan="2">
-                            <select id="months" onchange="selectMonth()">
-                        </select>
-                        </th>
-                        <th>
-                            <select id="years" onchange="selectYear()">
-                        </select>
-                        </th>
-                        <th><button type="button" onclick="nextMonth()">→</button></th>
-                        <th><button type="button" onclick="nextYear()">⇉</button></th>
-                    </tr>
-                </thead>
-                <tbody id="content-body">
-                    <tr id="day-of-weeks" class="title"></tr>
-                </tbody>
-            </table>
-            <div class="background" onclick="hideDate(event)"></div>
-        </div>
     </div>
-
     <script language="javascript" src="calendar.js"></script>
 </body>
 
