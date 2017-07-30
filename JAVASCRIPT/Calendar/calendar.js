@@ -196,6 +196,7 @@ function selectDay(event, day, month, year) {
     event.target.className += " active";
     var value = day + "/" + (month + 1) + "/" + year;
     inputDate.value = value;
+    hideDate();
 }
 /**
  * Change content of tag tbody when select value of tag select#months changed
@@ -268,6 +269,6 @@ function showDate() {
     divContent.style.display = "block";
 }
 
-function hideDate(e) {
+function hideDate() {
     divContent.style.display = "none";
 }
