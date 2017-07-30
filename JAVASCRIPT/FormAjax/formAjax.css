@@ -3,12 +3,30 @@
     padding: 0;
 }
 
+.text-success {
+    color: #5cb85c;
+}
+
+.text-error {
+    color: red;
+    font-weight: bold;
+    display: none;
+}
+
+h1 {
+    text-align: center;
+}
+
+button#button-submit {padding: 15px;margin: 10px;border: 1px solid #00B8D4;width: 97%;}
+
+form {width: 900px;}
+
 .background {
     opacity: 1;
 }
 
 #content {
-    top: -95px;
+    top: -75px;
 }
 
 input {
@@ -17,5 +35,9 @@ input {
     padding: 15px;
     margin: 10px;
     border: 1px solid #00B8D4;
-    width: 95%;
+    width: 93%;
+}
+
+input.error {
+    border: 1px solid red;
 }

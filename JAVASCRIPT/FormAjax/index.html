@@ -5,25 +5,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Calendar</title>
-    <link type="text/css" rel="stylesheet" href="../Calendar/calendar.css" />
+    <title>Form Ajax</title>
+    <link type="text/css" rel="stylesheet" href="https://duongvu089x.github.io/JAVASCRIPT/Calendar/calendar.css" />
     <link type="text/css" rel="stylesheet" href="formAjax.css" />
 </head>
 
 <body>
     <div class="container" id="container">
         <form action="/formAjax.php" method="POST">
-            <label>User name:</label>
-            <input type="text" id="user-name" name="firstname">
+            <label>Email:</label>
+            <input type="text" id="username" name="username" onblur="checkEmail(event)">
+            <p id="err-username" class="text-error">Error: Email is not valid</p>
             <lable>Password:</lable>
-            <input type="password" id="password" name="lastname">
+            <input type="password" id="password" name="lastname" onblur="checkPassword(event)">
+            <p id="err-password" class="text-error">Error: Password must contain at least one number, least one lowercase and least one uppercase</p>
             <lable>Birthday:</lable>
-            <input type="text" id="input-date" class="date" onclick="showDate()" onfocus="showDate()">
-            <input type="button" value="Submit" onclick="sendData()">
+            <input type="text" id="input-date" class="date" onfocus="showDate()" onblur="checkDate(event)">
+            <p id="err-date" class="text-error">Error: date is not valid</p>
+            <button id="button-submit" onclick="sendData(event)">Submit</button>
         </form>
+        <div id="login-result">
+            
+        </div>
     </div>
-    <script language="javascript" src="formAjax.js"></script>    
-    <script language="javascript" src="../Calendar/calendar.js"></script>
+    <script language="javascript" src="formAjax.js"></script>
+    <script language="javascript" src="https://duongvu089x.github.io/JAVASCRIPT/Calendar/calendar.js"></script>
 </body>
 
 </html>
