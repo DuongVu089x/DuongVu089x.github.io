@@ -1,7 +1,8 @@
 <?php
     header('Access-Control-Allow-Origin: *');  
-    $list_user_name = Array('1231@gmail.com','123456@gmail.com','duonganhvu123@gmail.com');
-    if (isset($_GET['name'])) {
+    $list_user_name = Array('duonganhvu','123456789','duonganhvu123');
+    if (isset($_GET['name']) && strlen(trim($_GET['name']))) {
+        $name = $_GET['name']; 
         $result = false;
         foreach ($list_user_name as $key => $user_name) {
             if($user_name === $_GET['name']){
@@ -10,5 +11,7 @@
             }
         } 
         echo $result? "true":"false"; 
+    }else{
+        echo "Please input the username";
     }
 ?>

@@ -1,7 +1,8 @@
+var chkUsername;
 var chkEmail;
 var chkPassword;
 var chkDate;
-const URL ="http://duonganhvu123.000webhostapp.com/formAjax.php";
+const URL = "/formAjax.php";
 
 function sendData(event) {
     event.preventDefault();
@@ -23,8 +24,23 @@ function sendData(event) {
         }
     };
     var txtUserName = document.getElementById('username');
-    xhttp.open("GET", URL+"?name=" + txtUserName.value, true);
+    xhttp.open("GET", URL + "?name=" + txtUserName.value, true);
     xhttp.send();
+}
+
+function checkUsername(event) {
+    event.srcElement.classList = "";
+    var value = event.target.value;
+    if (value.trim().length < 6) {
+        event.srcElement.classList += "error";
+        document.getElementById('button-submit').disabled = true;
+        document.getElementById('err-username').style.display = "block";
+        chkUsername = false;
+    } else {
+        chkUsername = true;
+        document.getElementById('err-username').style.display = "none";
+        enableButton();
+    }
 }
 
 function checkEmail(event) {
@@ -33,11 +49,11 @@ function checkEmail(event) {
     if (!reg.test(event.target.value)) {
         event.srcElement.classList += "error";
         document.getElementById('button-submit').disabled = true;
-        document.getElementById('err-username').style.display = "block";
+        document.getElementById('err-email').style.display = "block";
         chkEmail = false;
     } else {
         chkEmail = true;
-        document.getElementById('err-username').style.display = "none";
+        document.getElementById('err-email').style.display = "none";
         enableButton();
     }
 }

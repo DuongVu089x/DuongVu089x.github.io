@@ -13,19 +13,22 @@
 <body>
     <div class="container" id="container">
         <form action="/formAjax.php" method="POST">
-            <label>Email:</label>
-            <input type="text" id="username" name="username" onblur="checkEmail(event)">
-            <p id="err-username" class="text-error">Error: Email is not valid</p>
+            <label>Username:</label>
+            <input type="text" id="username" name="username" onblur="checkUsername(event)">
+            <p id="err-username" class="text-error">Error: Username must be at least 6 characters</p>
             <lable>Password:</lable>
             <input type="password" id="password" name="lastname" onblur="checkPassword(event)">
             <p id="err-password" class="text-error">Error: Password must contain at least one number, least one lowercase and least one uppercase</p>
+            <label>Email:</label>
+            <input type="text" id="email" name="email" onblur="checkEmail(event)">
+            <p id="err-email" class="text-error">Error: Email is not valid</p>
             <lable>Birthday:</lable>
             <input type="text" id="input-date" class="date" onfocus="showDate()" onblur="checkDate(event)">
             <p id="err-date" class="text-error">Error: date is not valid</p>
             <button id="button-submit" onclick="sendData(event)">Submit</button>
         </form>
         <div id="login-result">
-            
+
         </div>
     </div>
     <script language="javascript" src="formAjax.js"></script>
