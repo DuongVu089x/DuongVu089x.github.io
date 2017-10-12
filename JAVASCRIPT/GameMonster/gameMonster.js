@@ -4,8 +4,8 @@ const contextCanvas = canvas.getContext("2d");
 const action = document.getElementById("action");
 const contextAction = action.getContext("2d");
 
-const fps = 144;
-const ticks = 1000 / fps;
+const FPS = 144;
+const TICKS = 1000 / FPS;
 
 // Run game
 const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
@@ -76,7 +76,7 @@ const restartButton = {
     width: 50
 }
 
-const math = Math.floor(Math.random() * 400) + 1;
+const MATH = Math.floor(Math.random() * 400) + 1;
 
 // Game control
 let speed;
@@ -122,7 +122,7 @@ let monsterFive = new Monster(400, 400, 300, 300, 400, 400, false, false, 400, 4
 let monsterSix = new Monster(200, 400, 200, 300, 200, 400, false, false, 200, 400, 200, 300, 6);
 let monsterSeven = new Monster(0, 400, 100, 300, 0, 400, false, false, 0, 400, 100, 300, 7);
 let monsterEight = new Monster(0, 200, 100, 200, 0, 200, false, false, 0, 200, 100, 200, 8);
-let monsterNine = new Monster(math, math, math, math, math, math, false, false, 0, 0);
+let monsterNine = new Monster(MATH, MATH, MATH, MATH, MATH, MATH, false, false, 0, 0);
 
 /**
  * Function setting all controll
@@ -206,8 +206,14 @@ function chooseShowMonster() {
         refreshMonsterNine(monsterNine);
     }
 
-    let randomNumber = Math.floor(Math.random() * 9) + 1;
+    randomMonster();
+}
 
+/**
+ * function Random Monster
+ */
+function randomMonster() {
+    let randomNumber = Math.floor(Math.random() * 9) + 1;
     switch (randomNumber) {
         case 1:
             if (!monsterOne.show) {
@@ -392,6 +398,10 @@ function btnBoomClick() {
     for (let i = 0; i < numberMonsterShow; i++) {
         chooseShowMonster();
     }
+    if (!isRun) {
+        drawAction();
+        drawMonster();
+    }
 }
 
 /**
@@ -457,7 +467,7 @@ function btnRestartClick() {
 action.addEventListener("click", function (e) {
     locationX = e.pageX - this.offsetLeft;
     locationY = e.pageY - this.offsetTop;
-    
+
     // When click button boom
     if (locationX >= boomButton.startX && locationX <= boomButton.stopX && locationY >= boomButton.startY && boomButton.stopY && !isPause && boom > 0) {
         btnBoomClick();
@@ -635,7 +645,7 @@ function playGame() {
     } else if (isRun) {
         let dayNow = Date.now();
         let diffTime = dayNow - lastUpdateTime;
-        if (diffTime >= ticks) {
+        if (diffTime >= TICKS) {
             playLevel();
             if (monsterOne.show) {
                 updateMonster(monsterOne);
