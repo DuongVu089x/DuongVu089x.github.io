@@ -636,7 +636,7 @@ function gameOver() {
  */
 function playGame() {
     if (heart <= 0 || score <= 0) {
-        let tmp = parseInt(localStorage.getItem("bestscore"));
+        let tmp = parseInt(localStorage.getItem("bestscore") === null ? 0: localStorage.getItem("bestscore"));
         if (tmp < score) {
             localStorage.setItem("bestscore", score);
         }
