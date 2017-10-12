@@ -93,6 +93,7 @@ let isStop;
 let isPause;
 let isRun;
 let lastUpdateTime;
+let lastStop;
 
 class Monster {
     constructor(startX, startY, stopX, stopY, currentX, currentY, click, show, dieX, dieY, endX, endY, number) {
@@ -135,10 +136,12 @@ function setting() {
     boom = 3;
     stop = 3;
     heart = 5;
+
     isBoom = false;
     isStop = false;
     isPause = false;
     isRun = true;
+    lastStop = false;
     lastUpdateTime = Date.now();
     listBlood = new Array();
 }
@@ -395,6 +398,9 @@ function btnBoomClick() {
  * Function execute click buttton Stop
  */
 function btnStopClick() {
+    if (stop === 0) {
+        lastStop = true;
+    }
     if (isRun) {
         stop--;
         isRun = false;
@@ -451,12 +457,13 @@ function btnRestartClick() {
 action.addEventListener("click", function (e) {
     locationX = e.pageX - this.offsetLeft;
     locationY = e.pageY - this.offsetTop;
+    
     // When click button boom
     if (locationX >= boomButton.startX && locationX <= boomButton.stopX && locationY >= boomButton.startY && boomButton.stopY && !isPause && boom > 0) {
         btnBoomClick();
     }
     // When click button stop
-    if (locationX >= stopButton.startX && locationX <= stopButton.stopX && locationY >= stopButton.startY && stopButton.stopY && stop >= 0) {
+    if (locationX >= stopButton.startX && locationX <= stopButton.stopX && locationY >= stopButton.startY && stopButton.stopY && stop >= 0 && !lastStop) {
         btnStopClick();
     }
     // When click button pause
