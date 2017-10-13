@@ -83,7 +83,7 @@ let speed;
 let level;
 let score;
 let numberMonsterShow;
-let bestscore;
+let BEST;
 let listBlood;
 let boom;
 let stop;
@@ -132,7 +132,7 @@ function setting() {
     level = 1;
     score = 50;
     numberMonsterShow = 0;
-    bestscore = 50;
+    BEST = 50;
     boom = 3;
     stop = 3;
     heart = 5;
@@ -628,7 +628,7 @@ function gameOver() {
     contextCanvas.font = "20px Arial";
     contextCanvas.fillStyle = "#FFFFFF";
     contextCanvas.fillText("Score = " + score, 130, 240);
-    contextCanvas.fillText("Best score = " + localStorage.getItem("bestscore"), 130, 280);
+    contextCanvas.fillText("Best score = " + localStorage.getItem("BEST"), 130, 280);
 }
 
 /**
@@ -636,9 +636,9 @@ function gameOver() {
  */
 function playGame() {
     if (heart <= 0 || score <= 0) {
-        let tmp = parseInt(localStorage.getItem("bestscore") === null ? 0: localStorage.getItem("bestscore"));
+        let tmp = parseInt(localStorage.getItem("BEST") === null ? 0 : localStorage.getItem("BEST"));
         if (tmp <= score) {
-            localStorage.setItem("bestscore", score);
+            localStorage.setItem("BEST", score);
         }
         gameOver();
         return;
