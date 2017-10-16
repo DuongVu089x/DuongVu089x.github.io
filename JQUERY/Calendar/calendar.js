@@ -193,8 +193,8 @@ function getDaysOfMonth(year, month) {
  * @param {Number} year 
  */
 function selectDay(event, day, month, year) {
-    trDates.each(function (i) {
-        $(this).removeClass('active');
+    $.each(trDates, (i, item) => {
+        $(item).removeClass('active');
     });
     event.target.className += " active";
     inputDate.val(`${day}/${(month + 1)}/${year}`);
