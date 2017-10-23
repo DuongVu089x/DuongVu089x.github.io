@@ -22,6 +22,7 @@ form textarea {
     width: 98%;
     font-size: 13px;
     padding: 0 3px;
+    resize: none;
 }
 .col-01 {
     width: 98px;
