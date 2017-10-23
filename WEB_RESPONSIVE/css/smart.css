@@ -1,0 +1,108 @@
+@charset "utf-8";
+@media screen and (max-width: 644px) {
+    * {
+        margin: 0;
+        padding: 0;
+    }
+    .float,
+    img.float,
+    a.float,
+    .float {
+        float: none!important;
+        text-align: center!important;
+        margin: 7px auto!important;
+    }
+    .inner {
+        padding: 0 1%;
+        text-align: center;
+        width: 98%!important;
+        min-width: 50%;
+    }
+    .header {
+        float: none;
+    }
+    img.header_logo {
+        height: auto!important;
+    }
+    .float {
+        float: none!important;
+        text-align: center!important;
+        margin: 7px auto!important;
+        display: inline-block;
+    }
+    img.header_logo {
+        max-width: 430px!important;
+    }
+    .header_info {
+        width: 100%!important;
+        height: auto!important;
+    }
+    a img {
+        width: auto;
+        margin: 0!important;
+    }
+    .banner {
+        display: none!important;
+    }
+    .content_1 {
+        text-align: left!important;
+        max-width: 100%!important;
+    }
+    .content_1 p strong {
+        float: left;
+        margin-left: 4%;
+        margin-top: -18px;
+        width: 96%;
+    }
+    .box_1 {
+        margin: 5px;
+        padding-bottom: 5px;
+    }
+    .box_1 img.img_2 {
+        width: 100%;
+    }
+    .index dd {
+        display: block;
+        padding-left: 23px!important;
+        width: auto;
+    }
+    .index dt {
+        float: none!important;
+        margin-bottom: 5px;
+        background: url(../images/bullet_1.jpg) no-repeat scroll left 4px!important;
+    }
+    .inner {
+        height: auto!important;
+        margin: 0 auto!important;
+        padding: 0 1%!important;
+        text-align: center!important;
+        width: 98%!important;
+        min-width: 50%!important;
+    }
+    .f_l {
+        margin-top: 30px!important;
+    }
+    .f_l,
+    div.menu_footer {
+        float: none!important;
+    }
+    .menu_footer_1 {
+        max-width: 288px!important;
+        padding: 20px 0 16px 20px!important;
+    }
+    .menu_footer_1 ul {
+        max-width: 144px!important;
+    }
+    .menu_footer_2 {
+        display: block;
+    }
+    .copyright {
+        line-height: 13px;
+        margin-top: 0!important;
+        padding: 10px 0 70px!important;
+    }
+    .aside {
+        float: none;
+        margin: 25px auto;
+    }
+}
