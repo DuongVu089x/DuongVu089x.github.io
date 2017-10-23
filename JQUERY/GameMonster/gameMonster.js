@@ -1,19 +1,13 @@
-﻿const canvas = $("#canvas")[0];
-const contextCanvas = canvas.getContext("2d");
+﻿const content = $("#content");
+$("#content").css({
+    'width': '500px',
+    'height': '500px',
+    'position': 'relative',
+    'overflow': 'hidden'
+});
 
-const action = $("#action")[0];
+const action = document.getElementById("action");
 const contextAction = action.getContext("2d");
-
-const FPS = 100;
-const TICKS = 1000 / FPS;
-
-// Run game
-const requestAnimationFrame = window.requestAnimationFrame || window.webkitRequestAnimationFrame ||
-    window.msRequestAnimationFrame || window.mozRequestAnimationFrame;
-
-// Create background image
-const backgroundImage = new Image();
-backgroundImage.src = "images/background.jpg";
 
 // Create monster image
 const monsterImage = new Image();
@@ -76,8 +70,6 @@ const restartButton = {
     width: 50
 }
 
-const MATH = Math.floor(Math.random() * 400) + 1;
-
 // Game control
 let speed;
 let level;
@@ -86,9 +78,7 @@ let numberMonsterShow;
 let BEST;
 let listBlood;
 let boom;
-let stop;
 let heart;
-let isBoom;
 let isStop;
 let isPause;
 let isRun;
@@ -96,377 +86,160 @@ let lastUpdateTime;
 let lastStop;
 
 class Monster {
-    constructor(startX, startY, stopX, stopY, currentX, currentY, click, show, dieX, dieY, endX, endY, number) {
+    constructor(startX, startY, endX, endY, number, isDead) {
         this.startX = startX;
         this.startY = startY;
-        this.stopX = stopX;
-        this.stopY = stopY;
-        this.currentX = currentX;
-        this.currentY = currentY;
-        this.click = click;
-        this.show = show;
-        this.dieX = dieX;
-        this.dieY = dieY;
         this.endX = endX;
         this.endY = endY;
         this.number = number;
+        this.isDead = isDead;
     }
 }
-
 // Start create all monster
-let monsterOne = new Monster(0, 0, 100, 100, 0, 0, false, true, 0, 0, 100, 100, 1);
-let monsterTwo = new Monster(200, 0, 200, 100, 200, 0, false, false, 200, 0, 200, 100, 2);
-let monsterThree = new Monster(400, 0, 300, 100, 400, 0, false, false, 400, 0, 300, 100, 3);
-let monsterFour = new Monster(400, 200, 300, 200, 400, 200, false, false, 400, 200, 300, 200, 4);
-let monsterFive = new Monster(400, 400, 300, 300, 400, 400, false, false, 400, 400, 300, 300, 5);
-let monsterSix = new Monster(200, 400, 200, 300, 200, 400, false, false, 200, 400, 200, 300, 6);
-let monsterSeven = new Monster(0, 400, 100, 300, 0, 400, false, false, 0, 400, 100, 300, 7);
-let monsterEight = new Monster(0, 200, 100, 200, 0, 200, false, false, 0, 200, 100, 200, 8);
-let monsterNine = new Monster(MATH, MATH, MATH, MATH, MATH, MATH, false, false, 0, 0);
+let monsterOne = new Monster(0, 0, '40%', '40%', 1, true);
+let monsterTwo = new Monster('40%', 0, '40%', '40%', 2, true);
+let monsterThree = new Monster('80%', 0, '40%', '40%', 3, true);
+let monsterFour = new Monster('80%', '40%', '40%', '40%', 4, true);
+let monsterFive = new Monster('80%', '80%', '40%', '40%', 5, true);
+let monsterSix = new Monster('40%', '80%', '40%', '40%', 6, true);
+let monsterSeven = new Monster(0, '80%', '40%', '40%', 7, true);
+let monsterEight = new Monster(0, '40%', '40%', '40%', 8, true);
+let monsterNine = new Monster(randomLocation(), randomLocation(), randomLocation(), randomLocation(), 9);
 
+function randomLocation() {
+    return Math.floor(Math.random() * 400) + 1;
+}
+
+function animateMonster(monster) {
+    $(`#monster${monster.number}`).css('display', 'block');
+    $(`#monster${monster.number}`).animate({
+        top: monster.endY,
+        left: monster.endX
+    }, 3000);
+    $(`#monster${monster.number}`).animate({
+        top: monster.startY,
+        left: monster.startX,
+    }, 3000, () => {
+        $(`#monster${monster.number}`).css('display', 'none');
+        if (!monster.isDead) {
+            heart--;
+            if (heart >= 0) {
+                drawAction();
+                playGame();
+            } else {
+                gameOver();
+            }
+        }
+    });
+}
 /**
  * Function setting all controll
  */
 function setting() {
+    BEST = 50;
+
     speed = 1;
     level = 1;
     score = 50;
-    numberMonsterShow = 0;
-    BEST = 50;
+    numberMonsterShow = 1;
     boom = 3;
     stop = 3;
     heart = 5;
-
-    isBoom = false;
+    isRun = true;
     isStop = false;
     isPause = false;
-    isRun = true;
     lastStop = false;
     lastUpdateTime = Date.now();
     listBlood = new Array();
+
+    $("#content").append(`
+        <img id="monster1" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(1,event)"
+        />
+        <img id="monster2" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(2,event)"
+        />
+        <img id="monster3" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(3,event)"
+        />
+        <img id="monster4" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(4,event)"
+        />
+        <img id="monster5" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(5,event)"
+        />
+        <img id="monster6" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(6,event)"
+        />
+        <img id="monster7" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(7,event)"
+        />
+        <img id="monster8" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(8,event)"
+        />
+        <img id="monster9" class="monster" src="images/monster.gif" width="100px" height="100px" onclick="clickMonster(9,event)"
+        />
+        <div class="gameOver" id="gameOver">
+            <h1>Game Over</h1>
+        </div>
+    `);
 }
 
 /**
- * Function refresh Monster 1 -> 8
- * @param {Monster} monster 
+ * Function game over
  */
-function refreshMonster(monster) {
-    monster.show = false;
-    monster.startX = monster.dieX;
-    monster.startY = monster.dieY;
-    monster.stopX = monster.endX;
-    monster.stopY = monster.endY;
-    monster.currentX = monster.startX;
-    monster.currentY = monster.startY;
-}
-
-/**
- * Function refresh Monster 9
- * @param {Monster} monster 
- */
-function refreshMonsterNine(monster) {
-    monsterNine.show = false;
-    monsterNine.startX = Math.floor(Math.random() * 400) + 1;
-    monsterNine.startY = Math.floor(Math.random() * 400) + 1;
-    monsterNine.stopX = Math.floor(Math.random() * 400) + 1;
-    monsterNine.stopY = Math.floor(Math.random() * 400) + 1;
-    monsterNine.currentX = Math.floor(Math.random() * 400) + 1;
-    monsterNine.currentY = Math.floor(Math.random() * 400) + 1;
-}
-
-/**
- * Function choose random monster to run
- */
-function chooseShowMonster() {
-    if (!monsterOne.show) {
-        refreshMonster(monsterOne);
-    }
-    if (!monsterTwo.show) {
-        refreshMonster(monsterTwo);
-    }
-    if (!monsterThree.show) {
-        refreshMonster(monsterThree);
-    }
-    if (!monsterFour.show) {
-        refreshMonster(monsterFour);
-    }
-    if (!monsterFive.show) {
-        refreshMonster(monsterFive);
-    }
-    if (!monsterSix.show) {
-        refreshMonster(monsterSix);
-    }
-    if (!monsterSeven.show) {
-        refreshMonster(monsterSeven);
-    }
-    if (!monsterEight.show) {
-        refreshMonster(monsterEight);
-    }
-    if (!monsterNine.show) {
-        refreshMonsterNine(monsterNine);
-    }
-
-    randomMonster();
-}
-
-/**
- * function Random Monster
- */
-function randomMonster() {
-    let randomNumber = Math.floor(Math.random() * 9) + 1;
-    switch (randomNumber) {
-        case 1:
-            if (!monsterOne.show) {
-                monsterOne.show = true;
-            }
-            break;
-        case 2:
-            if (!monsterTwo.show) {
-                monsterTwo.show = true;
-            }
-            break;
-        case 3:
-            if (!monsterThree.show) {
-                monsterThree.show = true;
-            }
-            break;
-        case 4:
-            if (!monsterFour.show) {
-                monsterFour.show = true;
-            }
-            break;
-        case 5:
-            if (!monsterFive.show) {
-                monsterFive.show = true;
-            }
-            break;
-        case 6:
-            if (!monsterSix.show) {
-                monsterSix.show = true;
-            }
-            break;
-        case 7:
-            if (!monsterSeven.show) {
-                monsterSeven.show = true;
-            }
-            break;
-        case 8:
-            if (!monsterEight.show) {
-                monsterEight.show = true;
-            }
-            break;
-        case 9:
-            if (!monsterNine.show) {
-                monsterNine.show = true;
-            }
-            break;
-    }
-}
-
-/**
- * Function update Monster 1->8
- * @param {Monster} monster 
- */
-function updateMonster(monster) {
-    if (monster.currentX < monster.stopX) {
-        monster.currentX += speed;
-    } else if (monster.currentX > monster.stopX) {
-        monster.currentX -= speed;
-    }
-    if (monster.currentY < monster.stopY) {
-        monster.currentY += speed;
-    } else if (monster.currentY > monster.stopY) {
-        monster.currentY -= speed;
-    }
-    if (monster.currentX == monster.stopX && monster.currentY == monster.stopY) {
-        let temp = monster.stopX;
-        monster.stopX = monster.startX;
-        monster.startX = temp;
-        temp = monster.stopY;
-        monster.stopY = monster.startY;
-        monster.startY = temp;
-    }
-    if (monster.currentX == monster.dieX && monster.currentY == monster.dieY) {
-        score -= 10;
-        heart--;
-        refreshMonster(monster);
-        chooseShowMonster();
-    }
-}
-
-/**
- * Function update monster 9
- * @param {Monster} monster 
- */
-function updateMonsterNine(monster) {
-    if (monster.currentX < monster.stopX) {
-        monster.currentX += speed;
-    } else if (monster.currentX > monster.stopX) {
-        monster.currentX -= speed;
-    }
-    if (monster.currentY < monster.stopY) {
-        monster.currentY += speed;
-    } else if (monster.currentY > monster.stopY) {
-        monster.currentY -= speed;
-    }
-    if (monster.currentX == monster.stopX && monster.currentY == monster.stopY) {
-        score -= 10;
-        heart--;
-        refreshMonsterNine();
-        chooseShowMonster();
-    }
-}
-
-
-/**
- * Function add blood to list when monster was clicked
- * @param {number} x 
- * @param {number} y 
- */
-function addBlood(x, y) {
-    let bloods = {
-        x,
-        y
-    }
-    listBlood[listBlood.length] = bloods;
-}
-
-/**
- *  Function draw blood image
- */
-function drawBlood() {
-    if (listBlood.length > 0) {
-        for (let i = 0; i < listBlood.length; i++) {
-            contextCanvas.drawImage(bloodImage, listBlood[i].x, listBlood[i].y);
-        }
-    }
-    if (isStop) {
-        if (isRun) {
-            isRun = false;
-            isStop = true;
-
-        }
-    }
-}
-
-/**
- * Function execute click button Boom 
- * @param {Monster} monster 
- */
-function executeBoomClick(monster) {
-    if (monster.show) {
-        score -= 10;
-        executeMonsterClick(monster, monster.currentX, monster.currentY);
-    }
-}
-
-/**
- * Function execute click monster
- * @param {Monster} monster 
- * @param {number} locationX 
- * @param {number} locationY 
- */
-function executeMonsterClick(monster, locationX, locationY) {
-    if (locationX >= monster.currentX && locationX <= (monster.currentX + 100) && locationY >= monster.currentY && locationY <= (monster.currentY + 100)) {
-        score += 50;
-        addBlood(monster.currentX, monster.currentY);
-        refreshMonster(monster);
-        if (!isBoom) {
-            for (let i = 0; i < numberMonsterShow; i++) {
-                chooseShowMonster();
-            }
-        }
-    }
-}
-
-/**
- * Function execute click buttton Boom
- */
-function btnBoomClick() {
-    isBoom = true;
-    boom--;
-    executeBoomClick(monsterOne);
-    executeBoomClick(monsterTwo);
-    executeBoomClick(monsterThree);
-    executeBoomClick(monsterFour);
-    executeBoomClick(monsterFive);
-    executeBoomClick(monsterSix);
-    executeBoomClick(monsterSeven);
-    executeBoomClick(monsterEight);
-    executeBoomClick(monsterNine);
-    isBoom = false;
+function gameOver() {
     for (let i = 0; i < numberMonsterShow; i++) {
-        chooseShowMonster();
+        $(`#monster${(i+1)}`).finish();
     }
-    if (!isRun) {
+    $("#gameOver").css("display", "block");
+}
+
+function clickMonster(monster, event) {
+    if (isRun) {
+        score += 50;
+        switch (monster) {
+            case 1:
+                monsterOne.isDead = true;
+                break;
+            case 2:
+                monsterTwo.isDead = true;
+                break;
+            case 3:
+                monsterThree.isDead = true;
+                break;
+            case 4:
+                monsterFour.isDead = true;
+                break;
+            case 5:
+                monsterFive.isDead = true;
+                break;
+            case 6:
+                monsterSix.isDead = true;
+                break;
+            case 7:
+                monsterSeven.isDead = true;
+                break;
+            case 8:
+                monsterEight.isDead = true;
+                break;
+            case 9:
+                monsterNine.isDead = true;
+                break;
+        }
+        $(`#monster${monster}`).css('display', 'none').finish();
+        var parentOffset = $("#content").offset();
+        var relX = event.pageX - parentOffset.left;
+        var relY = event.pageY - parentOffset.top;
+
         drawAction();
-        drawMonster();
+        drawBlood(relX, relY);
+        randomMonster();
     }
 }
 
-/**
- * Function execute click buttton Stop
- */
-function btnStopClick() {
-    if (stop === 0) {
-        lastStop = true;
-    }
-    if (isRun) {
-        stop--;
-        isRun = false;
-        isStop = true;
-        contextCanvas.fillStyle = "#FFFFFF";
-        contextCanvas.font = "50px Arial";
-        contextCanvas.fillText("Stop", 180, 240);
-    } else {
-        isRun = true;
-        isStop = false;
-        playGame();
-    }
-}
-
-/**
- * Function execute click button Pause
- */
-function btnPauseClick() {
-    if (isRun) {
-        isRun = false;
-        isPause = true;
-        isBoom = false;
-        contextCanvas.fillStyle = "#FFFFFF";
-        contextCanvas.font = "50px Arial";
-        contextCanvas.fillText("Pause", 180, 240);
-    } else {
-        isRun = true;
-        isPause = false;
-        playGame();
-    }
-}
-
-/**
- * Function execute click button Restart 
- */
-function btnRestartClick() {
-    setting();
-    refreshMonster(monsterOne);
-    refreshMonster(monsterTwo);
-    refreshMonster(monsterThree);
-    refreshMonster(monsterFour);
-    refreshMonster(monsterFive);
-    refreshMonster(monsterSix);
-    refreshMonster(monsterSeven);
-    refreshMonster(monsterEight);
-    refreshMonsterNine();
-    monsterOne.show = true;
-    playGame();
+function drawBlood(pageX, pageY) {
+    $("#content").append(`<img class="blood" src="images/blood.png" width="100px" height="100px" style="left:${pageX}px; top:${pageY}px"/>`)
 }
 
 /**
  * Add event Listener click in canvas Action
  */
-$("#action").click((e) => {
-    locationX = e.pageX - action.offsetLeft;
-    locationY = e.pageY - action.offsetTop;
+action.addEventListener("click", function (e) {
+    locationX = e.pageX - this.offsetLeft;
+    locationY = e.pageY - this.offsetTop;
 
     // When click button boom
     if (locationX >= boomButton.startX && locationX <= boomButton.stopX && locationY >= boomButton.startY && boomButton.stopY && !isPause && boom > 0) {
@@ -486,94 +259,30 @@ $("#action").click((e) => {
     }
 });
 
-/**
- * Add event Listener click in canvas Content
- */
-$("#canvas").click((e) => {
-    if (isRun) {
-        locationX = e.pageX - canvas.offsetLeft;
-        locationY = e.pageY - canvas.offsetTop;
-        score -= 10;
-        if (monsterOne.show) {
-            executeMonsterClick(monsterOne, locationX, locationY);
-        }
-        if (monsterTwo.show) {
-            executeMonsterClick(monsterTwo, locationX, locationY);
-        }
-        if (monsterThree.show) {
-            executeMonsterClick(monsterThree, locationX, locationY);
-        }
-        if (monsterFour.show) {
-            executeMonsterClick(monsterFour, locationX, locationY);
-        }
-        if (monsterFive.show) {
-            executeMonsterClick(monsterFive, locationX, locationY);
-        }
-        if (monsterSix.show) {
-            executeMonsterClick(monsterSix, locationX, locationY);
-        }
-        if (monsterSeven.show) {
-            executeMonsterClick(monsterSeven, locationX, locationY);
-        }
-        if (monsterEight.show) {
-            executeMonsterClick(monsterEight, locationX, locationY);
-        }
-        if (monsterNine.show) {
-            executeMonsterClick(monsterNine, locationX, locationY);
-        }
-    }
-});
-
-/**
- * Function play with current level
- */
-function playLevel() {
-    level = Math.floor(score / 50);
-    switch (level) {
-        case 1:
-            numberMonsterShow = 1;
-            break;
-        case 2:
-            numberMonsterShow = 2;
-            break;
-        case 3:
-            numberMonsterShow = 3;
-            break;
-        case 4:
-            numberMonsterShow = 4;
-            break;
-        case 5:
-        case 6:
-        case 7:
-        case 8:
-        case 9:
-            numberMonsterShow = 5;
-            break;
+function btnPauseClick() {
+    clearInterval(intervalGamePlay);
+    for (let i = 0; i < numberMonsterShow; i++) {
+        $(`#monster${i+1}`).stop();
     }
 }
 
-/**
- * Function draw all buttons in canvas action
- */
-function drawAction() {
-    contextAction.clearRect(0, 0, action.width, action.height);
-    contextAction.fillStyle = "rgba(255,255,255,.87)";
-    contextAction.font = "20px Arial";
-    contextAction.fillText("Score:" + score, 10, 30);
-    contextAction.fillText("Random M: " + numberMonsterShow, 300, 30);
-    contextAction.fillText("Heart:", 10, 60);
-    contextAction.fillText("Speed:" + speed, 10, 90);
+function btnRestartClick() {
+    $("#content").html('');
+    setting();
+    drawAction();
+    playGame();
+}
 
+function drawButton() {
+    contextAction.drawImage(boomImage, boomButton.startX, boomButton.startY, boomButton.width, boomButton.height);
+    contextAction.drawImage(stopImage, stopButton.startX, stopButton.startY, stopButton.width, stopButton.height);
+    contextAction.drawImage(pauseImage, pauseButton.startX, pauseButton.startY, pauseButton.width, pauseButton.height);
+    contextAction.drawImage(restartImage, restartButton.startX, restartButton.startY, restartButton.width, restartButton.height);
     let temp = 0;
     for (let i = 0; i < heart; i++) {
         contextAction.drawImage(heartImage, (70 + temp), 45, 20, 20);
         temp += 20;
     }
-
-    contextAction.drawImage(boomImage, boomButton.startX, boomButton.startY, boomButton.width, boomButton.height);
-    contextAction.drawImage(stopImage, stopButton.startX, stopButton.startY, stopButton.width, stopButton.height);
-    contextAction.drawImage(pauseImage, pauseButton.startX, pauseButton.startY, pauseButton.width, pauseButton.height);
-    contextAction.drawImage(restartImage, restartButton.startX, restartButton.startY, restartButton.width, restartButton.height);
     contextAction.fillStyle = "#000";
     contextAction.font = "35px Arial";
     contextAction.fillText(boom, 260, 70);
@@ -581,108 +290,83 @@ function drawAction() {
 }
 
 /**
- * Function draw monster
+ * Function draw all buttons in canvas action
  */
-function drawMonster() {
-    contextCanvas.drawImage(backgroundImage, 0, 0);
-    drawBlood();
-    if (monsterOne.show) {
-        contextCanvas.drawImage(monsterImage, monsterOne.currentX, monsterOne.currentY, 100, 100);
+function drawAction() {
+    contextAction.clearRect(0, 0, action.width, action.height);
+    boomImage.onload = () => {
+        drawButton();
     }
-    if (monsterTwo.show) {
-        contextCanvas.drawImage(monsterImage, monsterTwo.currentX, monsterTwo.currentY, 100, 100);
-    }
-    if (monsterThree.show) {
-        contextCanvas.drawImage(monsterImage, monsterThree.currentX, monsterThree.currentY, 100, 100);
-    }
-    if (monsterFour.show) {
-        contextCanvas.drawImage(monsterImage, monsterFour.currentX, monsterFour.currentY, 100, 100);
-    }
-    if (monsterFive.show) {
-        contextCanvas.drawImage(monsterImage, monsterFive.currentX, monsterFive.currentY, 100, 100);
-    }
-    if (monsterSix.show) {
-        contextCanvas.drawImage(monsterImage, monsterSix.currentX, monsterSix.currentY, 100, 100);
-    }
-    if (monsterSeven.show) {
-        contextCanvas.drawImage(monsterImage, monsterSeven.currentX, monsterSeven.currentY, 100, 100);
-    }
-    if (monsterEight.show) {
-        contextCanvas.drawImage(monsterImage, monsterEight.currentX, monsterEight.currentY, 100, 100);
-    }
-    if (monsterNine.show) {
-        contextCanvas.drawImage(monsterImage, monsterNine.currentX, monsterNine.currentY, 100, 100);
+    drawButton();
+    contextAction.fillStyle = "rgba(255,255,255,.87)";
+    contextAction.font = "20px Arial";
+    contextAction.fillText("Score:" + score, 10, 30);
+    contextAction.fillText("Random M: " + numberMonsterShow, 300, 30);
+    contextAction.fillText("Heart:", 10, 60);
+    contextAction.fillText("Speed:" + speed, 10, 90);
+}
+
+function randomMonster() {
+    numberMonsterShow = level = Math.ceil(score / 200);
+    for (let i = 0; i < level; i++) {
+        let randomNumber = Math.ceil(Math.random() * 9) + 1;
+        switch (randomNumber) {
+            case 1:
+                monsterOne.isDead = false;
+                animateMonster(monsterOne);
+                break;
+            case 2:
+                monsterTwo.isDead = false;
+                animateMonster(monsterTwo);
+                break;
+            case 3:
+                monsterThree.isDead = false;
+                animateMonster(monsterThree);
+                break;
+            case 4:
+                monsterFour.isDead = false;
+                animateMonster(monsterFour);
+                break;
+            case 5:
+                monsterNine.isDead = false;
+                animateMonster(monsterNine);
+                break;
+            case 6:
+                monsterSix.isDead = false;
+                animateMonster(monsterSix);
+                break;
+            case 7:
+                monsterSeven.isDead = false;
+                animateMonster(monsterSeven);
+                break;
+            case 8:
+                monsterEight.isDead = false;
+                animateMonster(monsterEight);
+                break;
+            case 9:
+                monsterNine.isDead = false;
+                animateMonster(monsterNine);
+                break;
+            default:
+                monsterOne.isDead = false;
+                animateMonster(monsterOne);
+                break;
+        }
     }
 }
 
-/**
- * Function game over
- */
-function gameOver() {
-    isRun = false;
-    isPause = true;
-    isStop = true;
-    contextCanvas.fillStyle = "#FFFFFF";
-    contextCanvas.font = "40px Arial";
-    contextCanvas.fillText("Game over", 130, 200);
-    contextCanvas.font = "20px Arial";
-    contextCanvas.fillStyle = "#FFFFFF";
-    contextCanvas.fillText("Score = " + score, 130, 240);
-    contextCanvas.fillText("Best score = " + localStorage.getItem("BEST"), 130, 280);
-}
-
-/**
- * Function play game
- */
 function playGame() {
-    if (heart <= 0 || score <= 0) {
-        let tmp = parseInt(localStorage.getItem("BEST") === null ? 0 : localStorage.getItem("BEST"));
-        if (tmp <= score) {
-            localStorage.setItem("BEST", score);
-        }
-        gameOver();
-        return;
-    } else if (isRun) {
-        let dayNow = Date.now();
-        let diffTime = dayNow - lastUpdateTime;
-        if (diffTime >= TICKS) {
-            playLevel();
-            if (monsterOne.show) {
-                updateMonster(monsterOne);
-            }
-            if (monsterTwo.show) {
-                updateMonster(monsterTwo);
-            }
-            if (monsterThree.show) {
-                updateMonster(monsterThree);
-            }
-            if (monsterFour.show) {
-                updateMonster(monsterFour);
-            }
-            if (monsterFive.show) {
-                updateMonster(monsterFive);
-            }
-            if (monsterSix.show) {
-                updateMonster(monsterSix);
-            }
-            if (monsterSeven.show) {
-                updateMonster(monsterSeven);
-            }
-            if (monsterEight.show) {
-                updateMonster(monsterEight);
-            }
-            if (monsterNine.show) {
-                updateMonsterNine(monsterNine);
-            }
-            drawMonster();
-            drawAction();
-            lastUpdateTime = dayNow;
-        }
-        requestAnimationFrame(playGame);
-    }
+    randomMonster();
+    // if (intervalGamePlay) {
+    //     clearInterval(intervalGamePlay);
+    // }
+    // intervalGamePlay = setInterval(() => {
+    //     randomMonster();
+    // }, 6000);
 }
 
-$(document).ready(() => {
+(function init() {
     setting();
+    drawAction();
     playGame();
-});
+})();

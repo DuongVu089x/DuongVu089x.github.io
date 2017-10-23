@@ -1,13 +1,9 @@
-#canvas {
-    margin-top: -5px;
-    background-color: #1385C0;
-}
-
 .container {
     width: 500px;
-    height: 600px;
+    height: 100%;
     margin: auto;
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.25), 0 10px 10px rgba(0, 0, 0, 0.22);
+    background-image: url('images/background.jpg');
 }
 
 #action {
@@ -17,4 +13,89 @@
     /* Chrome 10-25, Safari 5.1-6 */
     background: linear-gradient(to right, #237A57, #093028);
     /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+#monster1 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster2 {
+    position: absolute;
+    top: 0;
+    left: 40%;
+    z-index: 100;
+    display: none;
+}
+
+#monster3 {
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster4 {
+    position: absolute;
+    top: 40%;
+    right: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster5 {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster6 {
+    position: absolute;
+    bottom: 0;
+    right: 40%;
+    z-index: 100;
+    display: none;
+}
+
+#monster7 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster8 {
+    position: absolute;
+    bottom: 40%;
+    left: 0;
+    z-index: 100;
+    display: none;
+}
+
+#monster9 {
+    position: absolute;
+    bottom: 40%;
+    left: 40%;
+    z-index: 100;
+    display: none;
+}
+
+#gameOver {
+    position: absolute;
+    top: 40%;
+    right: 40%;
+    color: white;
+    display: none;
+    z-index: 1000;
+}
+
+.blood {
+    position: absolute;
 }
