@@ -76,7 +76,6 @@ let level;
 let score;
 let numberMonsterShow;
 let BEST;
-let listBlood;
 let boom;
 let heart;
 let isStop;
@@ -86,25 +85,31 @@ let lastUpdateTime;
 let lastStop;
 
 class Monster {
-    constructor(startX, startY, endX, endY, number, isDead) {
+    constructor(startX, startY, endX, endY, number, isDead, stopX, stopY) {
         this.startX = startX;
         this.startY = startY;
         this.endX = endX;
         this.endY = endY;
         this.number = number;
         this.isDead = isDead;
+        this.stopX = stopX;
+        this.stopY = stopY;
     }
 }
 // Start create all monster
-let monsterOne = new Monster(0, 0, '40%', '40%', 1, true);
-let monsterTwo = new Monster('40%', 0, '40%', '40%', 2, true);
-let monsterThree = new Monster('80%', 0, '40%', '40%', 3, true);
-let monsterFour = new Monster('80%', '40%', '40%', '40%', 4, true);
-let monsterFive = new Monster('80%', '80%', '40%', '40%', 5, true);
-let monsterSix = new Monster('40%', '80%', '40%', '40%', 6, true);
-let monsterSeven = new Monster(0, '80%', '40%', '40%', 7, true);
-let monsterEight = new Monster(0, '40%', '40%', '40%', 8, true);
-let monsterNine = new Monster(randomLocation(), randomLocation(), randomLocation(), randomLocation(), 9);
+let monsterOne = new Monster(0, 0, '40%', '40%', 1, true, 0, 0);
+let monsterTwo = new Monster('40%', 0, '40%', '40%', 2, true, 0, 0);
+let monsterThree = new Monster('80%', 0, '40%', '40%', 3, true, 0, 0);
+let monsterFour = new Monster('80%', '40%', '40%', '40%', 4, true, 0, 0);
+let monsterFive = new Monster('80%', '80%', '40%', '40%', 5, true, 0, 0);
+let monsterSix = new Monster('40%', '80%', '40%', '40%', 6, true, 0, 0);
+let monsterSeven = new Monster(0, '80%', '40%', '40%', 7, true, 0, 0);
+let monsterEight = new Monster(0, '40%', '40%', '40%', 8, true, 0, 0);
+let monsterNine = new Monster(randomLocation(), randomLocation(), randomLocation(), randomLocation(), 9, true);
+
+const arrayMonster = [monsterOne, monsterTwo, monsterThree, monsterFour, monsterFive, monsterSix, monsterSeven, monsterEight, monsterNine];
+let currentListMonster;
+
 
 function randomLocation() {
     return Math.floor(Math.random() * 400) + 1;
@@ -137,7 +142,6 @@ function animateMonster(monster) {
  */
 function setting() {
     BEST = 50;
-
     speed = 1;
     level = 1;
     score = 50;
@@ -173,6 +177,9 @@ function setting() {
         />
         <div class="gameOver" id="gameOver">
             <h1>Game Over</h1>
+        </div>
+        <div class="gamePause" id="gamePause">
+            <h1>Game Pause</h1>
         </div>
     `);
 }
@@ -223,7 +230,6 @@ function clickMonster(monster, event) {
         var parentOffset = $("#content").offset();
         var relX = event.pageX - parentOffset.left;
         var relY = event.pageY - parentOffset.top;
-
         drawAction();
         drawBlood(relX, relY);
         randomMonster();
@@ -237,12 +243,12 @@ function drawBlood(pageX, pageY) {
 /**
  * Add event Listener click in canvas Action
  */
-action.addEventListener("click", function (e) {
-    locationX = e.pageX - this.offsetLeft;
-    locationY = e.pageY - this.offsetTop;
+action.addEventListener("click", (e) => {
+    locationX = e.pageX - action.offsetLeft;
+    locationY = e.pageY - action.offsetTop;
 
     // When click button boom
-    if (locationX >= boomButton.startX && locationX <= boomButton.stopX && locationY >= boomButton.startY && boomButton.stopY && !isPause && boom > 0) {
+    if (locationX >= boomButton.startX && locationX <= boomButton.stopX && locationY >= boomButton.startY && boomButton.stopY && isRun && boom > 0) {
         btnBoomClick();
     }
     // When click button stop
@@ -250,7 +256,7 @@ action.addEventListener("click", function (e) {
         btnStopClick();
     }
     // When click button pause
-    if (locationX >= pauseButton.startX && locationX <= pauseButton.stopX && !isStop && locationY >= pauseButton.startY && pauseButton.stopY) {
+    if (locationX >= pauseButton.startX && locationX <= pauseButton.stopX && !isStop && locationY >= pauseButton.startY && pauseButton.stopY && !isStop) {
         btnPauseClick();
     }
     // When click button restart
@@ -259,11 +265,51 @@ action.addEventListener("click", function (e) {
     }
 });
 
-function btnPauseClick() {
-    clearInterval(intervalGamePlay);
-    for (let i = 0; i < numberMonsterShow; i++) {
-        $(`#monster${i+1}`).stop();
+function btnStopClick() {
+    isStop = !isStop;
+    if (stop === 0) {
+        lastStop = true;
     }
+    if (isRun) {
+        stop--;
+        drawAction();
+    }
+    btnPauseClick();
+}
+
+function btnBoomClick() {
+    boom--;
+    for (let i = 0; i < arrayMonster.length; i++) {
+        let currentMonster = arrayMonster[i];
+        if (!currentMonster.isDead) {
+            currentMonster.isDead = true;
+            $(`#monster${currentMonster.number}`).css('display', 'none').finish();
+            drawBlood($(`#monster${currentMonster.number}`).css('left').replace(/(px)|%/, ""), $(`#monster${currentMonster.number}`).css('top').replace(/(px)|%/, ""));
+            drawAction();
+            randomMonster();
+        }
+    }
+}
+
+function btnPauseClick() {
+    if (isRun) {
+        currentListMonster = [];
+        for (let i = 0; i < arrayMonster.length; i++) {
+            let currentMonster = arrayMonster[i];
+            if (!currentMonster.isDead) {
+                $(`#monster${(i+1)}`).stop();
+                $(`#monster${(i+1)}`).stop();
+                currentListMonster.push(arrayMonster[i]);
+            }
+        }
+        $("#gamePause").css('display', 'block');
+    } else {
+        for (let i = 0; i < currentListMonster.length; i++) {
+            animateMonster(currentListMonster[i]);
+        }
+        $("#gamePause").css('display', 'none');
+    }
+    isRun = !isRun;
 }
 
 function btnRestartClick() {
@@ -357,12 +403,6 @@ function randomMonster() {
 
 function playGame() {
     randomMonster();
-    // if (intervalGamePlay) {
-    //     clearInterval(intervalGamePlay);
-    // }
-    // intervalGamePlay = setInterval(() => {
-    //     randomMonster();
-    // }, 6000);
 }
 
 (function init() {

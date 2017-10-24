@@ -87,7 +87,8 @@
     display: none;
 }
 
-#gameOver {
+#gameOver,
+#gamePause {
     position: absolute;
     top: 40%;
     right: 40%;
