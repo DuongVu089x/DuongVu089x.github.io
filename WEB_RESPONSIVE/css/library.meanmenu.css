@@ -26,7 +26,6 @@ div.nav{
 	padding: 4px 0;
 	min-height: 42px;
 	z-index: 999999;
-	display:inline-block;	
 }
 .mean-container a.meanmenu-reveal {
 	width: 22px;

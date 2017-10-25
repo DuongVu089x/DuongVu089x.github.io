@@ -4,6 +4,9 @@
         margin: 0;
         padding: 0;
     }
+    h1 {
+        text-align: center!important;
+    }
     .float,
     img.float,
     a.float,
@@ -55,7 +58,7 @@
         width: 96%;
     }
     .box_1 {
-        margin: 5px;
+        margin: 5px!important;
         padding-bottom: 5px;
     }
     .box_1 img.img_2 {

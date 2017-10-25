@@ -192,6 +192,16 @@ function gameOver() {
         $(`#monster${(i+1)}`).finish();
     }
     $("#gameOver").css("display", "block");
+    isRun = false;
+}
+
+function clickFailed() {
+    if (score <= 0) {
+        gameOver();
+        return;
+    }
+    score -= 25;
+    drawAction();
 }
 
 function clickMonster(monster, event) {
@@ -353,6 +363,10 @@ function drawAction() {
 }
 
 function randomMonster() {
+    if (!isRun) {
+        return;
+    }
+
     numberMonsterShow = level = Math.ceil(score / 200);
     for (let i = 0; i < level; i++) {
         let randomNumber = Math.ceil(Math.random() * 9) + 1;

@@ -290,13 +290,17 @@ ul {
 }
 
 .box_1 {
-    width: 218px;
+    width: 225px;
     height: auto;
     display: inline-block;
     text-align: left;
     border: 1px solid #d9d9d9;
     vertical-align: top;
-    margin: 0 5.5px;
+    margin: 0 2px;
+}
+
+.box_1 img.img_2 {
+    width: 100%;
 }
 
 .box_1 p {
